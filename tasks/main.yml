@@ -1,2 +1,39 @@
 ---
-# tasks file for polkadot-telemetry
+- name: Install UFW
+  apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: UFW already enabled
+  command: ufw status verbose
+  register: ufw_status_result
+  changed_when: False
+
+- name: Open telemetry front end
+  command: ufw allow 3000/tcp
+  when: not ufw_status_result.stdout is search("3000/tcp.*ALLOW IN.*Anywhere")
+
+- name: Open telemetry back end
+  command: ufw allow 8000/tcp
+  when: not ufw_status_result.stdout is search("8000/tcp.*ALLOW IN.*Anywhere")
+
+- name: Enable UFW
+  shell: |
+    set -o pipefail
+    echo "y" | ufw enable
+  args:
+    executable: /bin/bash
+  when: not ufw_status_result.stdout is search("Status.* active")
+
+- name: Create telemetry docker compose file
+  template:
+    src: docker-compose.yaml.j2
+    dest: /root/docker-compose.yaml
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Start telemetry containers
+  docker_compose:
+    project_src: /root/
