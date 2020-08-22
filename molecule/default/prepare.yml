@@ -1,0 +1,17 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: update apt cache
+      apt:
+        update_cache: yes
+    - name: include geerlingguy.pip
+      include_role:
+        name: geerlingguy.pip
+    - name: include geerlinguy.docker
+      include_role:
+        name: geerlingguy.docker
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
