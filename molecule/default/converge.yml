@@ -4,4 +4,4 @@
   tasks:
     - name: "Include polkadot-telemetry"
       include_role:
-        name: "polkadot-telemetry"
+        name: telemetry

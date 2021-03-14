@@ -1,8 +1,9 @@
 galaxy_info:
   role_name: substrate_telemetry
+  namespace: geometrylabs
   author: Richard Mah (@shinyfoil)
   description: Role to run Substrate Telemetry server
-  company:
+  company: Geometry Labs
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
