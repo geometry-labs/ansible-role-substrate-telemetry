@@ -11,8 +11,8 @@
   changed_when: False
 
 - name: Open telemetry front end
-  command: ufw allow 3000/tcp
-  when: not ufw_status_result.stdout is search("3000/tcp.*ALLOW IN.*Anywhere")
+  command: ufw allow 80/tcp
+  when: not ufw_status_result.stdout is search("80/tcp.*ALLOW IN.*Anywhere")
 
 - name: Open telemetry back end
   command: ufw allow 8000/tcp
