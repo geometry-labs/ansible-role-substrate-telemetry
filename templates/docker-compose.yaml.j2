@@ -4,7 +4,7 @@ services:
   telemetry-frontend:
     image: parity/substrate-telemetry-frontend
     ports:
-      - 3000:80
+      - 80:80
     environment:
       - SUBSTRATE_TELEMETRY_URL=ws://{{host_fqdn}}:8000/feed
   telemetry-backend:
