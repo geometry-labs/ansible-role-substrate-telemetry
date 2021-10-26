@@ -3,14 +3,37 @@ version: "3"
 services:
   telemetry-frontend:
     image: parity/substrate-telemetry-frontend
-    ports:
-      - 80:80
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:uid=101,gid=101
+      - /var/run:uid=101,gid=101
+      - /app/tmp:uid=101,gid=101
     environment:
-      - SUBSTRATE_TELEMETRY_URL=ws://{{host_fqdn}}:8000/feed
-  telemetry-backend:
+      SUBSTRATE_TELEMETRY_URL: ws://substrate-telemetry.geometry.io:8000/feed
+    ports:
+      - 80:8000
+    expose:
+      - 80
+  telemetry-backend-shard:
     image: parity/substrate-telemetry-backend
+    read_only: true
+    command: [
+      'telemetry_shard',
+      '--listen', '0.0.0.0:8001',
+      '--core', 'http://telemetry-backend-core:8000/shard_submit'
+    ]
+    ports:
+      - 8001:8001
+    expose:
+      - 8001
+  telemetry-backend-core:
+    image: parity/substrate-telemetry-backend
+    read_only: true
+    command: [
+      'telemetry_core',
+      '--listen', '0.0.0.0:8000'
+    ]
     ports:
       - 8000:8000
     expose:
       - 8000
-    command: -l 0.0.0.0:8000

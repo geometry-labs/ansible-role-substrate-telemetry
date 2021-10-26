@@ -17,7 +17,11 @@
 - name: Open telemetry back end
   command: ufw allow 8000/tcp
   when: not ufw_status_result.stdout is search("8000/tcp.*ALLOW IN.*Anywhere")
-  
+
+- name: Open telemetry back end (shard)
+  command: ufw allow 8001/tcp
+  when: not ufw_status_result.stdout is search("8001/tcp.*ALLOW IN.*Anywhere")
+
 - name: Open SSH
   command: ufw allow 22/tcp
   when: not ufw_status_result.stdout is search("22/tcp.*ALLOW IN.*Anywhere")
