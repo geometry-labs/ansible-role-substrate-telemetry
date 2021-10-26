@@ -9,7 +9,7 @@ services:
       - /var/run:uid=101,gid=101
       - /app/tmp:uid=101,gid=101
     environment:
-      SUBSTRATE_TELEMETRY_URL: ws://substrate-telemetry.geometry.io:8000/feed
+      SUBSTRATE_TELEMETRY_URL: ws://{{host_fqdn}}:8000/feed
     ports:
       - 80:8000
     expose:
